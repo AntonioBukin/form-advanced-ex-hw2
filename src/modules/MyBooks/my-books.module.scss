@@ -1,0 +1,45 @@
+.wrapper {
+    padding: 20px ;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 21px;
+    margin-bottom: 25px;
+    color: green;
+}
+
+.block {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 60px;
+}
+
+.form {
+    border: 1px solid;
+    padding: 10px;
+    background-color: gainsboro;
+    border-radius: 10px;
+}
+
+.formGroup {
+    margin-bottom: 15px;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    align-items: center;
+    gap: 10px;
+}
+
+.textField {
+    padding: 5px;
+}
+
+.list {
+    margin: 15px 0;
+
+    &Item {
+        margin-bottom: 10px;
+    }
+}

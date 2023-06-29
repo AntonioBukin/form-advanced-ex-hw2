@@ -1,0 +1,16 @@
+.btn {
+    display: inline-block;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid red;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: red;
+    cursor: pointer;
+
+    &.active {
+        background-color: red;
+        color: #fff;
+    }
+
+}

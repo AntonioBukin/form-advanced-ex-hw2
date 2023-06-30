@@ -2,6 +2,8 @@ import { Component } from "react";
 import { nanoid } from "nanoid";
 
 import MyBooksBlock from "./MyBooksBlock/MyBooksBlock";
+import MyBooksPages from "./MyBooksPages/MyBooksPages";
+import MyBooksForm from "../MyBooks/MyBooksForm/MyBooksForm";
 
 import styles from "./my-books.module.scss";
 
@@ -19,46 +21,14 @@ class MyBook extends Component {
             //     author: "John C. McCrae"
             // },
         ],
-        title: "",
-        author: "",
         filter: "",
     }
 
-    handleChange = ({target}) => {
-        const {name, value} = target;
-        this.setState({
-            [name]: value
-        })
-        //console.log(name);
-        //console.log(value);
-    }
-
-        handleSubmit = (e) => {
-            e.preventDefault();
-            if(this.isDublicate()) {
-                const {title, author} = this.state;
-                alert (`${title} - ${author} is already exist`);
-                return;
-            }
-
-            this.setState(prevState => {
-                const {title, author, items} = prevState;
-                const newBook = {
-                    id: nanoid(),
-                    title, 
-                    author,
-                }
-
-                return {items: [...items, newBook], title: "", author: ""}
-            })
-            this.reset();
+        onAddBook = () => {
+            
         }
 
-        reset() {
-            this.setState({title: "", author: ""})
-        }
-
-        onDeleteBook(id) {
+        onDeleteBook = (id) => {
             this.setState(prevState => {
                 const newItems = prevState.items.filter(item => item.id !== id);
                 return {
@@ -98,34 +68,16 @@ class MyBook extends Component {
 
         const items = this.getFilteredBooks();
 
-        const elements = items.map(({id, title, author }) => (
-            <li className={styles.listItem} key={id}>
-                Title: {title}. Author: {author}. <button onClick={() => this.onDeleteBook(id)}>delete</button>
-            </li>
-        ))
-
         return (
             <div className={styles.wrapper}>
                 <h3 className={styles.title}>My Books</h3>
                 <div className={styles.block}>
                     <MyBooksBlock title="Add new book">
-                        <form onSubmit={this.handleSubmit} className={styles.form}>
-                            <div className={styles.formGroup}>
-                                <label>Book title</label>
-                                <input value={title} name="title" onChange={this.handleChange} className={styles.textField} placeholder="Book title"/>
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label>Book author</label>
-                                <input value={author} name="author" onChange={this.handleChange} className={styles.textField} placeholder="Book author"/>
-                            </div>
-                            <button type="submit">Add book</button>
-                        </form>
+                        <MyBooksForm/>
                     </MyBooksBlock>
                     <MyBooksBlock title="Book list">
                         <input name="filter" onChange={this.handleChange} className={styles.textField} placeholder="enter book or author" />
-                        <ol className={styles.list}>
-                            {elements}
-                        </ol>
+                        <MyBooksPages items={items} onDeleteBook={this.onDeleteBook}/>
                     </MyBooksBlock>
                 </div>
             </div>

@@ -24,8 +24,20 @@ class MyBook extends Component {
         filter: "",
     }
 
-        onAddBook = () => {
-            
+        onAddBook = ({title, author}) => {
+            if(this.isDublicate({title, author})) {
+                return alert(`${title} - ${author} is already exist`);
+            }
+            this.setState(prevState => {
+                const {items} = prevState;
+                const newBook = {
+                    id: nanoid(),
+                    title,
+                    author,
+                }
+
+                return {items: [...items, newBook]}
+            })
         }
 
         onDeleteBook = (id) => {
@@ -38,8 +50,8 @@ class MyBook extends Component {
 
         }
 
-        isDublicate() {
-            const {title, author, items} = this.state;
+        isDublicate({title, author}) {
+            const {items} = this.state;
             const normalizedTitle = title.toLowerCase();
             const normalizedAuthor = author.toLowerCase();
             const dublicate = items.find(item => {
@@ -64,8 +76,6 @@ class MyBook extends Component {
     
 
     render() {
-        const { title, author } = this.state;
-
         const items = this.getFilteredBooks();
 
         return (
@@ -73,7 +83,7 @@ class MyBook extends Component {
                 <h3 className={styles.title}>My Books</h3>
                 <div className={styles.block}>
                     <MyBooksBlock title="Add new book">
-                        <MyBooksForm/>
+                        <MyBooksForm onSubmit={this.onAddBook}/>
                     </MyBooksBlock>
                     <MyBooksBlock title="Book list">
                         <input name="filter" onChange={this.handleChange} className={styles.textField} placeholder="enter book or author" />
